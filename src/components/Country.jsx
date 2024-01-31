@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  Button,
   Card,
   CardContent,
   Typography,
   
 } from "@material-ui/core";
-import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import { makeStyles } from "@material-ui/core/styles";
+import Medals from "./Medals";
+
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => {
 			justifyContent: "center",
 			alignItems: "center",
 			marginTop: "auto",
+			width: "100%",
 
 			backgroundColor: theme.palette.background.default,
 			color: theme.palette.text.secondary,
@@ -27,66 +28,50 @@ const useStyles = makeStyles((theme) => {
 		},
 		cardContents: {
 			display: "flex",
-			flexDirection: "column",
-			justifyContent: "space-evenly",
+			flexDirection: "row",
+			justifyContent: "space-between",
 			alignItems: "center",
 			margin: "auto",
-		},
-		delCardBtn: {
-			marginTop: theme.spacing(1),
-			padding: theme.spacing(1.5),
-      width: "100%",
-      color: theme.palette.common.white,
-			"&:hover": {
-				backgroundColor: theme.palette.secondary.dark,
-			},
-			[theme.breakpoints.down("sm")]: {
-				width: "100%",
-			},
-		},
-    addCardBtn: {
-      marginTop: theme.spacing(1),
-			padding: theme.spacing(1.5),
 			width: "100%",
-			color: theme.palette.common.white,
-			"&:hover": {
-				backgroundColor: theme.palette.primary.dark,
-			},
-			[theme.breakpoints.down("sm")]: {
-				width: "100%",
-			},
 		},
 	};
 });
-function Country({ data, decrementGold, incrementGold }) {
+
+function Country({ data, decrementMedals, incrementMedals }) {
 	const classes = useStyles();
+	const incrementGold = () => incrementMedals(data.id, "gold");
+	const decrementGold = () => decrementMedals(data.id, "gold");
+	const incrementSilver = () => incrementMedals(data.id, "silver");
+	const decrementSilver = () => decrementMedals(data.id, "silver");
+	const incrementBronze = () => incrementMedals(data.id, "bronze");
+	const decrementBronze = () => decrementMedals(data.id, "bronze");
 
 	return (
 		<div className={classes.cardContainer}>
-			<Card variant='outlined'>
+			<Card variant='outlined' style={{ width: "100%" }}>
 				<CardContent className={classes.cardContents}>
 					<Typography color='textSecondary' gutterBottom>
 						Country Name: {data.name}
 					</Typography>
-					<Typography variant='h5'>
-						Gold Medals: {data.gold} <EmojiEventsIcon className={classes.goldMedalIcon} />
-					</Typography>
-					<Button
-						className={classes.addCardBtn}
-						variant='contained'
-						color='primary'
-						onClick={() => incrementGold(data.id)}>
-						Add Gold Medal
-					</Button>
-					{data.gold > 0 && (
-						<Button
-							className={classes.delCardBtn}
-							variant='contained'
-							color='secondary'
-							onClick={() => decrementGold(data.id)}>
-							Remove Gold Medal
-						</Button>
-					)}
+
+					<Medals
+						color='gold'
+						medalCount={data.gold}
+						onIncrement={() => incrementGold("gold")}
+						onDecrement={() => decrementGold("gold")}
+					/>
+					<Medals
+						color='silver'
+						medalCount={data.silver}
+						onIncrement={() => incrementSilver("silver")}
+						onDecrement={() => decrementSilver("silver")}
+					/>
+					<Medals
+						color='brown'
+						medalCount={data.bronze}
+						onIncrement={() => incrementBronze("bronze")}
+						onDecrement={() => decrementBronze("bronze")}
+					/>
 				</CardContent>
 			</Card>
 		</div>

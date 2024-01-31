@@ -28,6 +28,23 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
+	title: {
+		textAlign: "center",
+		fontSize: "2.5rem",
+		fontWeight: "bold",
+		marginBottom: theme.spacing(2),
+	},
+	countryContainer: {
+		marginTop: theme.spacing(2),
+		marginBottom: theme.spacing(2),
+		maxWidth: "85%",
+		boxShadow: theme.shadows[2],
+		display: "flex",
+		position: "center",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
 	tableContainer: {
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
@@ -38,28 +55,78 @@ const useStyles = makeStyles((theme) => ({
 function App() {
 	const classes = useStyles();
 	const [countriesList, setCountries] = useState([
-		{ id: 1, name: "USA", gold: 2 },
-		{ id: 2, name: "China", gold: 0 },
-		{ id: 3, name: "Japan", gold: 0 },
-		{ id: 4, name: "Germany", gold: 0 },
-		{ id: 5, name: "France", gold: 0 },
-		{ id: 6, name: "Brazil", gold: 0 },
+		{
+			id: 1,
+			name: "USA",
+			gold: Math.floor(Math.random() * 10),
+			silver: Math.floor(Math.random() * 10),
+			bronze: Math.floor(Math.random() * 10),
+		},
+		{
+			id: 2,
+			name: "China",
+			gold: Math.floor(Math.random() * 10),
+			silver: Math.floor(Math.random() * 10),
+			bronze: Math.floor(Math.random() * 10),
+		},
+		{
+			id: 3,
+			name: "Japan",
+			gold: Math.floor(Math.random() * 10),
+			silver: Math.floor(Math.random() * 10),
+			bronze: Math.floor(Math.random() * 10),
+		},
+		{
+			id: 4,
+			name: "Italy",
+			gold: Math.floor(Math.random() * 10),
+			silver: Math.floor(Math.random() * 10),
+			bronze: Math.floor(Math.random() * 10),
+		},
+		{
+			id: 5,
+			name: "France",
+			gold: Math.floor(Math.random() * 10),
+			silver: Math.floor(Math.random() * 10),
+			bronze: Math.floor(Math.random() * 10),
+		},
+		{
+			id: 6,
+			name: "Brazil",
+			gold: Math.floor(Math.random() * 10),
+			silver: Math.floor(Math.random() * 10),
+			bronze: Math.floor(Math.random() * 10),
+		},
 	]);
+
 	// const [selectedCountryId, setSelectedCountryId] = useState(1);
 
+	const getTotalMedals = () => {
+		return countriesList.reduce(
+			(acc, country) => ({
+				gold: acc.gold + country.gold,
+				silver: acc.silver + country.silver,
+				bronze: acc.bronze + country.bronze,
+			}),
+			{ gold: 0, silver: 0, bronze: 0 }
+		);
+	};
+
+	const totalMedals = getTotalMedals();
+
 	// Function to decrement gold count
-	const decrementGold = (countryId) => {
+	const decrementMedals = (countryId, type) => {
 		setCountries(
 			countriesList.map((country) =>
-				country.id === countryId && country.gold > 0 ? { ...country, gold: country.gold - 1 } : country
+				country.id === countryId && country[type] > 0 ? { ...country, [type]: country[type] - 1 } : country
 			)
 		);
 	};
 
 	// Function to increment gold count
-	const incrementGold = (countryId) => {
+	const incrementMedals = (countryId, type) => {
 		setCountries(
-			countriesList.map((country) => (country.id === countryId ? { ...country, gold: country.gold + 1 } : country))
+			countriesList.map((country) => (country.id === countryId ? { ...country, [type]: country[type] + 1 } : country))
 		);
 	};
 
@@ -81,14 +148,22 @@ function App() {
 	return (
 		<Container className={classes.appContainer}>
 			<h1 className={classes.title}>Gold Medals by Country</h1>
-			<Grid container spacing={3}>
-				{/* Country components showing increment and decrement buttons */}
-				{countriesList.map((country) => (
-					<Grid item xs={12} sm={6} md={4} key={country.id}>
-						<Country key={country.id} data={country} decrementGold={decrementGold} incrementGold={incrementGold} />
-					</Grid>
-				))}
-			</Grid>
+			<Container className={classes.countryContainer}>
+				<Grid container spacing={2}>
+					{/* Country components showing increment and decrement buttons */}
+					{countriesList.map((country) => (
+						<Grid item xs={12} sm={12} md={12} key={country.id}>
+							<Country
+								country={country}
+								key={country.id}
+								data={country}
+								decrementMedals={decrementMedals}
+								incrementMedals={incrementMedals}
+							/>
+						</Grid>
+					))}
+				</Grid>
+			</Container>
 
 			{/* Medal Count Table */}
 			<TableContainer item xs={12} sm={6} md={4} className={classes.tableContainer} component={Paper}>
@@ -97,6 +172,9 @@ function App() {
 						<TableRow>
 							<TableCell>Country</TableCell>
 							<TableCell align='right'>Gold Medals</TableCell>
+							<TableCell align='right'>Silver Medals</TableCell>
+							<TableCell align='right'>Bronze Medals</TableCell>
+							<TableCell align='right'>Total Medals</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -106,8 +184,36 @@ function App() {
 									{country.name}
 								</TableCell>
 								<TableCell align='right'>{country.gold}</TableCell>
+								<TableCell align='right'>{country.silver}</TableCell>
+								<TableCell align='right'>{country.bronze}</TableCell>
+								<TableCell align='right'>{country.gold + country.silver + country.bronze}</TableCell>
 							</TableRow>
 						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
+			{/* table for medal totals by metal not country */}
+			<TableContainer item xs={12} sm={6} md={4} className={classes.tableContainer} component={Paper}>
+				<Table aria-label='simple table'>
+					<TableHead>
+						<TableRow>
+							<TableCell>Medals</TableCell>
+							<TableCell align='right'>Gold Medals</TableCell>
+							<TableCell align='right'>Silver Medals</TableCell>
+							<TableCell align='right'>Bronze Medals</TableCell>
+							<TableCell align='right'>Total Medals</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						<TableRow>
+							<TableCell component='th' scope='row'>
+								Total Medals
+							</TableCell>
+							<TableCell align='right'>{totalMedals.gold}</TableCell>
+							<TableCell align='right'>{totalMedals.silver}</TableCell>
+							<TableCell align='right'>{totalMedals.bronze}</TableCell>
+							<TableCell align='right'>{totalMedals.gold + totalMedals.silver + totalMedals.bronze}</TableCell>
+						</TableRow>
 					</TableBody>
 				</Table>
 			</TableContainer>
