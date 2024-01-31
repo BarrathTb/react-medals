@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => {
 			justifyContent: "space-between",
 			alignItems: "center",
 			margin: "auto",
-			width: "100%",
+			maxwidth: "80%",
 		},
 	};
 });
@@ -67,7 +67,7 @@ function Country({ data, decrementMedals, incrementMedals }) {
 						onDecrement={() => decrementSilver("silver")}
 					/>
 					<Medals
-						color='brown'
+						color='bronze'
 						medalCount={data.bronze}
 						onIncrement={() => incrementBronze("bronze")}
 						onDecrement={() => decrementBronze("bronze")}

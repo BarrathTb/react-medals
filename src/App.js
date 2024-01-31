@@ -147,7 +147,7 @@ function App() {
 
 	return (
 		<Container className={classes.appContainer}>
-			<h1 className={classes.title}>Gold Medals by Country</h1>
+			<h1 className={classes.title}>Olympic Medals by Country</h1>
 			<Container className={classes.countryContainer}>
 				<Grid container spacing={2}>
 					{/* Country components showing increment and decrement buttons */}
