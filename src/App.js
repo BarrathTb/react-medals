@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Country from "./components/Country";
 import {
 	Container,
@@ -13,7 +13,9 @@ import {
 	Paper,
 	Grid,
 } from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
+import NewCountry from "./components/NewCountry";
 
 const useStyles = makeStyles((theme) => ({
 	appContainer: {
@@ -130,24 +132,36 @@ function App() {
 		);
 	};
 
-	// Handler for change based on selected country and increment decision
-	// const handleMedalChange = (increment) => {
-	// 	setCountries(
-	// 		countriesList.map((country) => {
-	// 			if (country.id === selectedCountryId) {
-	// 				const newGoldCount = increment ? country.gold + 1 : Math.max(country.gold - 1, 0);
-	// 				return { ...country, gold: newGoldCount };
-	// 			}
-	// 			return country;
-	// 		})
-	// 	);
-	// };
+	useEffect(() => {
+		// Fetch countries initially or set up data retrieval logic
+	}, []);
 
-	// const selectedCountry = countriesList.find((country) => country.id === selectedCountryId);
+	const addCountry = (newName) => {
+		// Logic to add country
+		const newId = countriesList.length ? Math.max(...countriesList.map((c) => c.id)) + 1 : 1;
+		setCountries([
+			...countriesList,
+			{
+				id: newId,
+				name: newName,
+				gold: 0,
+				silver: 0,
+				bronze: 0,
+			},
+		]);
+	};
+	const deleteCountry = (countryId) => {
+		// Logic to delete a country when button is clicked
+
+		setCountries(countriesList.filter((country) => country.id !== countryId));
+
+		// Update the state by removing deleted country
+	};
 
 	return (
 		<Container className={classes.appContainer}>
 			<h1 className={classes.title}>Olympic Medals by Country</h1>
+			<NewCountry addCountry={addCountry} />
 			<Container className={classes.countryContainer}>
 				<Grid container spacing={2}>
 					{/* Country components showing increment and decrement buttons */}
@@ -156,9 +170,9 @@ function App() {
 							<Country
 								country={country}
 								key={country.id}
-								data={country}
 								decrementMedals={decrementMedals}
 								incrementMedals={incrementMedals}
+								deleteCountry={deleteCountry}
 							/>
 						</Grid>
 					))}

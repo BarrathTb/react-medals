@@ -7,6 +7,9 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Medals from "./Medals";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 
 
 const useStyles = makeStyles((theme) => {
@@ -37,38 +40,41 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-function Country({ data, decrementMedals, incrementMedals }) {
+function Country({ country, decrementMedals, incrementMedals, deleteCountry }) {
 	const classes = useStyles();
-	const incrementGold = () => incrementMedals(data.id, "gold");
-	const decrementGold = () => decrementMedals(data.id, "gold");
-	const incrementSilver = () => incrementMedals(data.id, "silver");
-	const decrementSilver = () => decrementMedals(data.id, "silver");
-	const incrementBronze = () => incrementMedals(data.id, "bronze");
-	const decrementBronze = () => decrementMedals(data.id, "bronze");
+	const incrementGold = () => incrementMedals(country.id, "gold");
+	const decrementGold = () => decrementMedals(country.id, "gold");
+	const incrementSilver = () => incrementMedals(country.id, "silver");
+	const decrementSilver = () => decrementMedals(country.id, "silver");
+	const incrementBronze = () => incrementMedals(country.id, "bronze");
+	const decrementBronze = () => decrementMedals(country.id, "bronze");
 
 	return (
 		<div className={classes.cardContainer}>
 			<Card variant='outlined' style={{ width: "100%" }}>
 				<CardContent className={classes.cardContents}>
 					<Typography color='textSecondary' gutterBottom>
-						Country Name: {data.name}
+            Country Name: {country.name}
+            <IconButton onClick={() => deleteCountry(country.id)}>
+              <DeleteIcon />
+            </IconButton>
 					</Typography>
 
 					<Medals
 						color='gold'
-						medalCount={data.gold}
+						medalCount={country.gold}
 						onIncrement={() => incrementGold("gold")}
 						onDecrement={() => decrementGold("gold")}
 					/>
 					<Medals
 						color='silver'
-						medalCount={data.silver}
+						medalCount={country.silver}
 						onIncrement={() => incrementSilver("silver")}
 						onDecrement={() => decrementSilver("silver")}
 					/>
 					<Medals
 						color='bronze'
-						medalCount={data.bronze}
+						medalCount={country.bronze}
 						onIncrement={() => incrementBronze("bronze")}
 						onDecrement={() => decrementBronze("bronze")}
 					/>

@@ -10,28 +10,29 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0.5),
         width: "100%",
         color: theme.palette.common.white,
-        backgroundColor: theme.palette.secondary.main, // Make sure to refer to a color value like main or light or dark
+        backgroundColor: theme.palette.secondary.main,
         "&:hover": {
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.palette.secondary.light,
         },
-        [theme.breakpoints.down("sm")]: {
-            width: "100%",
+        "&:active": {
+            transform: 'translateY(1px)',
+            boxShadow: theme.shadows[1],
         },
+        boxShadow: theme.shadows [6],
     },
 
     medalContainer: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-		margin: theme.spacing(1), // Changed marginRight to theme.spacing(2)
-		padding: theme.spacing(1),
-	},
-
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: theme.spacing(1),
+        padding: theme.spacing(1),
+    },
 
     goldMedalIcon: {
         verticalAlign: "middle",
-        color: theme.palette.warning.main, // Make sure to refer to a color value like main or light or dark
+        color: theme.palette.warning.light,
         padding: theme.spacing(0.5),
     },
 
@@ -40,15 +41,19 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0.5),
         width: "100%",
         color: theme.palette.common.white,
-        backgroundColor: theme.palette.primary.main, // Make sure to refer to a color value like main or light or dark
+        backgroundColor: theme.palette.primary.main,
+        boxShadow: theme.shadows[2],
         "&:hover": {
-            backgroundColor: theme.palette.primary.dark,
+            backgroundColor: theme.palette.primary.light,
         },
-        [theme.breakpoints.down("sm")]: {
-            width: "100%",
+        "&:active": {
+            transform: 'translateY(1px)',
+            boxShadow: theme.shadows[1],
         },
+        
     },
 }));
+
 
 function Medals({ color, medalCount, onIncrement, onDecrement }) {
   const classes = useStyles();
