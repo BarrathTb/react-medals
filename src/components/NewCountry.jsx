@@ -1,7 +1,7 @@
 /** @format */
 
 import React from "react";
-import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from "@material-ui/core";
+import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Tooltip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 class NewCountry extends React.Component {
@@ -12,11 +12,10 @@ class NewCountry extends React.Component {
 	};
 
 	addCountry = () => {
-		const { countriesList } = this.state; // Deconstruct if using state
+		const { countriesList } = this.state;
 		const newCountryId = countriesList.length > 0 ? Math.max(...countriesList.map((country) => country.id)) + 1 : 1;
 
 		this.setState({
-			// Corrected method name and used 'this.setState'
 			countriesList: [
 				...countriesList,
 				{
@@ -33,12 +32,15 @@ class NewCountry extends React.Component {
 	handleClickOpen = () => {
 		this.setState({ open: true });
 	};
+
 	handleClose = () => {
 		this.setState({ open: false });
 	};
+
 	handleChange = (event) => {
 		this.setState({ [event.target.name]: event.target.value });
 	};
+
 	handleSubmit = () => {
 		if (this.state.name.length > 0) {
 			this.props.addCountry(this.state.name);
@@ -49,9 +51,12 @@ class NewCountry extends React.Component {
 	render() {
 		return (
 			<div>
-				<Fab color='primary' aria-label='add' onClick={this.handleClickOpen}>
-					<AddIcon />
-				</Fab>
+				<Tooltip title='Add New Country' style={{ fontSize: "2rem" }}>
+					<Fab color='primary' aria-label='add' onClick={this.handleClickOpen}>
+						<AddIcon />
+					</Fab>
+				</Tooltip>
+
 				<Dialog
 					open={this.state.open}
 					onClose={this.handleClose}
@@ -62,7 +67,7 @@ class NewCountry extends React.Component {
 						<TextField
 							autoFocus
 							margin='dense'
-							id='name' // Changed from "country.name"
+							id='name'
 							name='name'
 							label='Country Name'
 							type='text'
@@ -72,7 +77,7 @@ class NewCountry extends React.Component {
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.handleClose} color='seconadary'>
+						<Button onClick={this.handleClose} color='secondary'>
 							Cancel
 						</Button>
 						<Button onClick={this.handleSubmit} color='primary' autoFocus>
@@ -86,4 +91,3 @@ class NewCountry extends React.Component {
 }
 
 export default NewCountry;
-      

@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "center",
 		alignItems: "center",
 	},
+	tooltipContainer: {
+		display: "flex",
+		justifyContent: "center",
+		fontSize: "1.2rem",
+	},
 	tableContainer: {
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
@@ -132,9 +137,7 @@ function App() {
 		);
 	};
 
-	useEffect(() => {
-		// Fetch countries initially or set up data retrieval logic
-	}, []);
+	useEffect(() => {}, []);
 
 	const addCountry = (newName) => {
 		// Logic to add country
@@ -151,11 +154,7 @@ function App() {
 		]);
 	};
 	const deleteCountry = (countryId) => {
-		// Logic to delete a country when button is clicked
-
 		setCountries(countriesList.filter((country) => country.id !== countryId));
-
-		// Update the state by removing deleted country
 	};
 
 	return (
