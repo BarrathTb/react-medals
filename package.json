@@ -1,6 +1,6 @@
 {
-	"homepage": "https://barrathtb.github.io/basic-concepts-state/",
-	"name": "react-basic-concepts",
+	"homepage": "https://barrathtb.github.io/react-lab/",
+	"name": "react-lab",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
