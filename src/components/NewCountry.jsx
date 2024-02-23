@@ -1,93 +1,100 @@
-/** @format */
-
-import React from "react";
-import { Fab, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Tooltip } from "@material-ui/core";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Fab,
+    TextField,
+    Tooltip
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import React, { useState } from "react";
 
-class NewCountry extends React.Component {
-	state = {
-		open: false,
-		name: "",
-		countriesList: [],
-	};
 
-	addCountry = () => {
-		const { countriesList } = this.state;
-		const newCountryId = countriesList.length > 0 ? Math.max(...countriesList.map((country) => country.id)) + 1 : 1;
+function NewCountry({ onShowToast, addCountry }) { // Notice addCountry is now received via props
 
-		this.setState({
-			countriesList: [
-				...countriesList,
-				{
-					id: newCountryId,
-					name: this.state.name,
-					gold: 0,
-					silver: 0,
-					bronze: 0,
-				},
-			],
-		});
-	};
+    const [open, setOpen] = useState(false);
+    const [name, setName] = useState("");
 
-	handleClickOpen = () => {
-		this.setState({ open: true });
-	};
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleAddCountry();
+            event.preventDefault(); // Prevent the default action to avoid form submission
+        }
+    };
 
-	handleClose = () => {
-		this.setState({ open: false });
-	};
+    const handleAddCountry = async () => {
+        const newName = name.trim();
+        if (!newName) {
+            onShowToast("Please enter a country name!");
+            return;
+        }
 
-	handleChange = (event) => {
-		this.setState({ [event.target.name]: event.target.value });
-	};
+        try {
+            // Call the addCountry function passed via props
+            await addCountry(newName);
+            onShowToast(`Added ${newName}!`);
+            setOpen(false);
+            setName("");
+        } catch (error) {
+            onShowToast("Failed to add country!");
+        }
+    };
 
-	handleSubmit = () => {
-		if (this.state.name.length > 0) {
-			this.props.addCountry(this.state.name);
-			this.handleClose();
-		}
-	};
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-	render() {
-		return (
-			<div>
-				<Tooltip title='Add New Country' style={{ fontSize: "2rem" }}>
-					<Fab color='primary' aria-label='add' onClick={this.handleClickOpen}>
-						<AddIcon />
-					</Fab>
-				</Tooltip>
+    const handleClose = () => {
+        setOpen(false);
+        setName("");
+    };
 
-				<Dialog
-					open={this.state.open}
-					onClose={this.handleClose}
-					aria-labelledby='alert-dialog-title'
-					aria-describedby='alert-dialog-description'>
-					<DialogTitle id='alert-dialog-title'>{"Add Country"}</DialogTitle>
-					<DialogContent>
-						<TextField
-							autoFocus
-							margin='dense'
-							id='name'
-							name='name'
-							label='Country Name'
-							type='text'
-							fullWidth
-							onChange={this.handleChange}
-							value={this.state.name}
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={this.handleClose} color='secondary'>
-							Cancel
-						</Button>
-						<Button onClick={this.handleSubmit} color='primary' autoFocus>
-							Add
-						</Button>
-					</DialogActions>
-				</Dialog>
-			</div>
-		);
-	}
+    const handleChange = (event) => {
+        setName(event.target.value);
+    };
+
+    return (
+        <div>
+            <Tooltip title='Add New Country'>
+                <Fab color='primary' aria-label='add' onClick={handleClickOpen}>
+                    <AddIcon />
+                </Fab>
+            </Tooltip>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                onKeyDown={handleKeyPress}
+                aria-labelledby='alert-dialog-title'
+                aria-describedby='alert-dialog-description'>
+                <DialogTitle id='alert-dialog-title'>{"Add New Country"}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin='dense'
+                        id='name'
+                        name='name'
+                        label='Country Name'
+                        type='text'
+                        fullWidth
+                        onChange={handleChange}
+                        value={name}
+                        onKeyPress={handleKeyPress} // Add this line to listen for the Enter key
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color='secondary'>
+                        Cancel
+                    </Button>
+                    <Button onClick={handleAddCountry} color='primary' autoFocus>
+                        Add
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
 }
 
 export default NewCountry;

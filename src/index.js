@@ -1,9 +1,9 @@
 /** @format */
 
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
 
 const darkPaletteColors = {
 	darkBlue: "#1565c0",
@@ -57,9 +57,10 @@ const theme = createTheme({
 	},
 });
 
-ReactDOM.render(
+const container = document.querySelector("#root");
+const root = createRoot(container);
+root.render(
 	<ThemeProvider theme={theme}>
 		<App />
-	</ThemeProvider>,
-	document.querySelector("#root")
+	</ThemeProvider>
 );

@@ -1,18 +1,19 @@
-import React from "react";
 import {
-  Card,
-  CardContent,
-  Typography,
-  
+    Card,
+    CardContent, CardHeader
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import Medals from "./Medals";
 import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from "@material-ui/core/styles";
+import { ArrowBack, Save } from "@material-ui/icons";
 import DeleteIcon from '@material-ui/icons/Delete';
+import React from "react";
+import Medals from './Medals';
 
 
 
-const useStyles = makeStyles((theme) => {
+
+
+const useCountryStyles = makeStyles((theme) => {
 	return {
 		cardContainer: {
 			display: "flex",
@@ -36,52 +37,62 @@ const useStyles = makeStyles((theme) => {
 			alignItems: "center",
 			margin: "auto",
 			maxwidth: "80%",
+        },
+        cardHeader: {
+			display: "flex",
+			flexDirection: "row",
+			justifyContent: "space-between",
+			alignItems: "center",
+			margin: "1rem",
+            maxwidth: "80%",
+            fontSize: "1.25rem",
 		},
 	};
 });
 
-function Country({ country, decrementMedals, incrementMedals, deleteCountry }) {
-	const classes = useStyles();
-	const incrementGold = () => incrementMedals(country.id, "gold");
-	const decrementGold = () => decrementMedals(country.id, "gold");
-	const incrementSilver = () => incrementMedals(country.id, "silver");
-	const decrementSilver = () => decrementMedals(country.id, "silver");
-	const incrementBronze = () => incrementMedals(country.id, "bronze");
-	const decrementBronze = () => decrementMedals(country.id, "bronze");
 
-	return (
-		<div className={classes.cardContainer}>
-			<Card variant='outlined' style={{ width: "100%" }}>
-				<CardContent className={classes.cardContents}>
-					<Typography color='textSecondary' gutterBottom>
-            Country Name: {country.name}
-            <IconButton onClick={() => deleteCountry(country.id)}>
-              <DeleteIcon />
-            </IconButton>
-					</Typography>
+function Country({ country, medals, decrementMedals, incrementMedals, deleteCountry, onSave, onReset }) {
+    const classes = useCountryStyles();
 
-					<Medals
-						color='gold'
-						medalCount={country.gold}
-						onIncrement={() => incrementGold("gold")}
-						onDecrement={() => decrementGold("gold")}
-					/>
-					<Medals
-						color='silver'
-						medalCount={country.silver}
-						onIncrement={() => incrementSilver("silver")}
-						onDecrement={() => decrementSilver("silver")}
-					/>
-					<Medals
-						color='bronze'
-						medalCount={country.bronze}
-						onIncrement={() => incrementBronze("bronze")}
-						onDecrement={() => decrementBronze("bronze")}
-					/>
-				</CardContent>
-			</Card>
-		</div>
-	);
+    return (
+        <div className={classes.cardContainer}>
+            <Card variant='outlined' style={{ width: "100%" }}>
+                <CardHeader 
+                    className={classes.cardHeader}
+                    titleTypographyProps={{ color: 'textSecondary', gutterBottom: true }}
+                    title={`Country Name: ${country.name}`}
+                    action={
+                        <>
+                            <IconButton onClick={() => deleteCountry(country.id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                            <IconButton onClick={() => onSave(country.id)}> {/* Pass only the country ID */}
+                                <Save />
+                            </IconButton>
+                            <IconButton onClick={() => onReset(country.id)}> {/* Pass only the country ID */}
+                                <ArrowBack />
+                            </IconButton>
+                        </>
+                    }
+                />
+
+                <CardContent className={classes.cardContents}>
+                    <Medals 
+                        medals={
+                            medals.map(medal => ({
+                                ...medal,
+                                count: country[medal.name].page_value
+                            }))
+                        } 
+                        country={country}
+                        incrementMedals={(medalName) => incrementMedals(country.id, medalName, 1)} 
+                        decrementMedals={(medalName) => decrementMedals(country.id, medalName, -1)}
+                    />                       
+                </CardContent>
+            </Card>
+        </div>
+    );
 }
 
 export default Country;
+

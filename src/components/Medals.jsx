@@ -1,16 +1,20 @@
 
-import React from 'react';
 import { Button, Typography } from "@material-ui/core";
-import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import { makeStyles } from "@material-ui/core/styles";
+import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
+import React from 'react';
 
-const useStyles = makeStyles((theme) => ({
+
+
+const useMedalStyles = makeStyles((theme) => ({
     delCardBtn: {
         marginTop: theme.spacing(1),
         padding: theme.spacing(0.5),
         width: "100%",
         color: theme.palette.common.white,
+        boxShadow: theme.shadows[6],
         backgroundColor: theme.palette.secondary.main,
+        
         "&:hover": {
             backgroundColor: theme.palette.secondary.light,
         },
@@ -18,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
             transform: 'translateY(1px)',
             boxShadow: theme.shadows[1],
         },
-        boxShadow: theme.shadows [6],
+        
     },
 
     medalContainer: {
@@ -32,7 +36,17 @@ const useStyles = makeStyles((theme) => ({
 
     goldMedalIcon: {
         verticalAlign: "middle",
-        color: theme.palette.warning.light,
+        color: "#FFD700", // Gold color using a hex code
+        padding: theme.spacing(0.5),
+    },
+    silverMedalIcon: {
+        verticalAlign: "middle",
+        color: "#C0C0C0", // Silver color using a hex code
+        padding: theme.spacing(0.5),
+    },
+    bronzeMedalIcon: {
+        verticalAlign: "middle",
+        color: "#CD7F32", // Bronze color using a hex code
         padding: theme.spacing(0.5),
     },
 
@@ -55,23 +69,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Medals({ color, medalCount, onIncrement, onDecrement }) {
-  const classes = useStyles();
+function Medals({ medals = [], country, incrementMedals, decrementMedals }) {
+  const classes = useMedalStyles();
 
   return (
-    <div className={classes.medalContainer}>
-      <Typography className={classes.goldMedalIcon} variant='h6'>
-        {color.charAt(0).toUpperCase() + color.slice(1)} Medals: {medalCount} 
-        <EmojiEventsIcon className={classes.goldMedalIcon} style={{ color }} />
-      </Typography>
-      <Button className={classes.addCardBtn} onClick={() => onIncrement()}>
-        Add {color.charAt(0).toUpperCase() + color.slice(1)} Medal
-      </Button>
-      {medalCount > 0 && (
-        <Button className={classes.delCardBtn} onClick={() => onDecrement()}>
-          Remove {color.charAt(0).toUpperCase() + color.slice(1)} Medal
-        </Button>
-      )}
+    <div>
+      {medals.map((medal) => (
+        <div key={medal.id} className={classes.medalContainer}>
+          <Typography className={classes[`${medal.name}MedalIcon`]} variant="h6">
+            {`${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medals: ${country[medal.name].saved_value}`}
+            <EmojiEventsIcon />
+          </Typography>
+          <Button
+            className={classes.addCardBtn}
+            onClick={() => incrementMedals(country.id, medal.name, 1)}
+          >
+            {`Add ${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medal`}
+          </Button>
+          {country[medal.name].page_value > 0 && (
+            <Button
+              className={classes.delCardBtn}
+              onClick={() => decrementMedals(country.id, medal.name, -1)}
+            >
+              {`Remove ${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medal`}
+            </Button>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
