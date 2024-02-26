@@ -75,21 +75,27 @@ function Medals({ medals = [], country, incrementMedals, decrementMedals }) {
   return (
     <div>
       {medals.map((medal) => (
-        <div key={medal.id} className={classes.medalContainer}>
+        <div key={medal.name} className={classes.medalContainer}>
           <Typography className={classes[`${medal.name}MedalIcon`]} variant="h6">
             {`${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medals: ${country[medal.name].saved_value}`}
             <EmojiEventsIcon />
           </Typography>
           <Button
             className={classes.addCardBtn}
-            onClick={() => incrementMedals(country.id, medal.name, 1)}
+            onClick={() => {
+              console.log('Incrementing medal:', medal.name);
+              incrementMedals(country.id, medal.name)
+            }}
           >
             {`Add ${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medal`}
           </Button>
           {country[medal.name].page_value > 0 && (
             <Button
               className={classes.delCardBtn}
-              onClick={() => decrementMedals(country.id, medal.name, -1)}
+              onClick={() => {
+                console.log('Decrementing medal:', medal.name);
+                decrementMedals(country.id, medal.name)
+              }}
             >
               {`Remove ${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medal`}
             </Button>

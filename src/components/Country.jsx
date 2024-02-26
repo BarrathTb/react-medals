@@ -51,7 +51,7 @@ const useCountryStyles = makeStyles((theme) => {
 });
 
 
-function Country({ country, medals, decrementMedals, incrementMedals, deleteCountry, onSave, onReset }) {
+function Country({ country, medals = [], decrementMedals, incrementMedals, deleteCountry, onSave, onReset }) {
     const classes = useCountryStyles();
 
     return (
@@ -85,8 +85,8 @@ function Country({ country, medals, decrementMedals, incrementMedals, deleteCoun
                             }))
                         } 
                         country={country}
-                        incrementMedals={(medalName) => incrementMedals(country.id, medalName, 1)} 
-                        decrementMedals={(medalName) => decrementMedals(country.id, medalName, -1)}
+                        incrementMedals={(medalName) => incrementMedals(country.id, medalName)} 
+                        decrementMedals={(medalName) => decrementMedals(country.id, medalName)}
                     />                       
                 </CardContent>
             </Card>
