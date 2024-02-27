@@ -1,6 +1,6 @@
 {
-	"homepage": "https://barrathtb.github.io/react-lab/",
-	"name": "react-lab",
+	"homepage": "https://barrathtb.github.io/react-medals/",
+	"name": "react-medals",
 	"version": "0.1.0",
 	"private": true,
 	"proxy": "http://localhost:5002",

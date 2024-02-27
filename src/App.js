@@ -115,7 +115,8 @@ const App = () => {
 		setCountries(currentCountriesList)
 
 		try {
-			await axios.patch(`${apiEndpoint}/${countryId}`, jsonPatch)
+			// await axios.patch(`${apiEndpoint}/${countryId}`, jsonPatch)
+			alert('tets')
 		} catch (ex) {
 			if (ex.response && ex.response.status === 404) {
 				// country already deleted
@@ -170,13 +171,13 @@ const App = () => {
 			}
 		}
 	}
-	const incrementMedals = (medalName) => {
+	const incrementMedals = (countryId, medalName) => {
 		console.log(`Before incrementing: ${medalName}`)
-		doUpdate(medalName, 1)
+		doUpdate(countryId, medalName, 1)
 	}
-	const decrementMedals = (medalName) => {
+	const decrementMedals = (countryId, medalName) => {
 		console.log(`Before decrementing: ${medalName}`)
-		doUpdate(medalName, -1)
+		doUpdate(countryId, medalName, -1)
 	}
 	const doUpdate = async (countryId, medalName, factor) => {
 		const originalCountries = countriesList
@@ -188,14 +189,18 @@ const App = () => {
 		}
 
 		const mutableCountries = [...countriesList]
-		mutableCountries[idx][medalName] += 1 * factor
+		mutableCountries[idx][medalName].page_value += 1 * factor
+		// console.log(`index: ${idx}`)
+		// console.log(`medalName: ${medalName}`)
+		// console.log(`index: ${mutableCountries[idx][medalName]}`)
 		setCountries(mutableCountries)
-		const newMedalCount = mutableCountries[idx][medalName]
-		const jsonPatch = [{ op: 'replace', path: `/${medalName}`, value: newMedalCount }]
+		// const newMedalCount = mutableCountries[idx][medalName]
+		// console.log(newMedalCount)
+		const jsonPatch = [{ op: 'replace', path: medalName, value: mutableCountries[idx][medalName].page_value }]
 		console.log(`json patch for id: ${countryId}: ${JSON.stringify(jsonPatch)}`)
 
 		try {
-			await axios.patch(`${apiEndpoint}/country/${countryId}`, jsonPatch, {
+			await axios.patch(`${apiEndpoint}/${countryId}`, jsonPatch, {
 				headers: {
 					accept: '*/*',
 					'Content-Type': 'application/json-patch+json',
@@ -214,13 +219,8 @@ const App = () => {
 		}
 	}
 
-	const getMedalsTotal = () => {
-		let sum = 0
-
-		medals.current.forEach((medal) => {
-			sum += countriesList.reduce((a, b) => a + b[medal.name].page_value, 0)
-		})
-		return sum
+	const getMedalsTotal = (medalType) => {
+		return countriesList.reduce((total, country) => total + country[medalType].page_value, 0)
 	}
 
 	const handleToastShow = (message) => {
@@ -298,13 +298,12 @@ const App = () => {
 								<TableCell component='th' scope='row'>
 									{country.name}
 								</TableCell>
-								<TableCell align='right'>{country.gold.page_value}</TableCell> {/* Changed */}
-								<TableCell align='right'>{country.silver.page_value}</TableCell> {/* Changed */}
-								<TableCell align='right'>{country.bronze.page_value}</TableCell> {/* Changed */}
+								<TableCell align='right'>{country.gold.page_value}</TableCell>
+								<TableCell align='right'>{country.silver.page_value}</TableCell>
+								<TableCell align='right'>{country.bronze.page_value}</TableCell>
 								<TableCell align='right'>
 									{country.gold.page_value + country.silver.page_value + country.bronze.page_value}
 								</TableCell>{' '}
-								{/* Changed */}
 							</TableRow>
 						))}
 					</TableBody>

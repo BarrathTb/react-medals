@@ -36,7 +36,7 @@ const useCountryStyles = makeStyles((theme) => {
 			justifyContent: "space-between",
 			alignItems: "center",
 			margin: "auto",
-			maxwidth: "80%",
+			
         },
         cardHeader: {
 			display: "flex",
@@ -44,7 +44,7 @@ const useCountryStyles = makeStyles((theme) => {
 			justifyContent: "space-between",
 			alignItems: "center",
 			margin: "1rem",
-            maxwidth: "80%",
+            
             fontSize: "1.25rem",
 		},
 	};
@@ -85,8 +85,8 @@ function Country({ country, medals = [], decrementMedals, incrementMedals, delet
                             }))
                         } 
                         country={country}
-                        incrementMedals={(medalName) => incrementMedals(country.id, medalName)} 
-                        decrementMedals={(medalName) => decrementMedals(country.id, medalName)}
+                        incrementMedals={incrementMedals}
+                        decrementMedals={decrementMedals}
                     />                       
                 </CardContent>
             </Card>

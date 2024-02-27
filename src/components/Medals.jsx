@@ -32,13 +32,23 @@ const useMedalStyles = makeStyles((theme) => ({
         alignItems: "center",
         margin: theme.spacing(1),
         padding: theme.spacing(1),
-    },
+  },
+    cardContents: {
+			display: "flex",
+			flexDirection: "row",
+			justifyContent: "space-between",
+			alignItems: "center",
+			margin: "auto",
+			
+        },
 
     goldMedalIcon: {
         verticalAlign: "middle",
         color: "#FFD700", // Gold color using a hex code
         padding: theme.spacing(0.5),
-    },
+        alignItems: "center",
+  },
+    
     silverMedalIcon: {
         verticalAlign: "middle",
         color: "#C0C0C0", // Silver color using a hex code
@@ -73,18 +83,18 @@ function Medals({ medals = [], country, incrementMedals, decrementMedals }) {
   const classes = useMedalStyles();
 
   return (
-    <div>
+    <div className={classes.cardContents}>
       {medals.map((medal) => (
         <div key={medal.name} className={classes.medalContainer}>
           <Typography className={classes[`${medal.name}MedalIcon`]} variant="h6">
-            {`${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medals: ${country[medal.name].saved_value}`}
-            <EmojiEventsIcon />
+            {`${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medals: ${country[medal.name].page_value}`}
+            <EmojiEventsIcon className={classes[`${medal.name}MedalIcon`]} />
           </Typography>
           <Button
             className={classes.addCardBtn}
             onClick={() => {
-              console.log('Incrementing medal:', medal.name);
-              incrementMedals(country.id, medal.name)
+              // console.log('Incrementing medal:', medal.name);
+              incrementMedals(country.id, medal.name);
             }}
           >
             {`Add ${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medal`}
