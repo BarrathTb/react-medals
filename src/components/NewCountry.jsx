@@ -81,7 +81,7 @@ function NewCountry({ onShowToast, addCountry }) { // Notice addCountry is now r
                         fullWidth
                         onChange={handleChange}
                         value={name}
-                        onKeyPress={handleKeyPress} // Add this line to listen for the Enter key
+                        onKeyDown={handleKeyPress} // Add this line to listen for the Enter key
                     />
                 </DialogContent>
                 <DialogActions>

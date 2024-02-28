@@ -115,8 +115,8 @@ const App = () => {
 		setCountries(currentCountriesList)
 
 		try {
-			// await axios.patch(`${apiEndpoint}/${countryId}`, jsonPatch)
-			alert('tets')
+			await axios.patch(`${apiEndpoint}/${countryId}`, jsonPatch)
+			handleToastShow(country.name + ' medals updated successfully')
 		} catch (ex) {
 			if (ex.response && ex.response.status === 404) {
 				// country already deleted
@@ -142,6 +142,7 @@ const App = () => {
 			return country
 		})
 		setCountries(updatedCountriesList)
+		handleToastShow(' Medals Reset Successfully')
 	}
 	const addCountry = async (name) => {
 		const { data: post } = await axios.post(apiEndpoint, { name: name })
@@ -155,15 +156,16 @@ const App = () => {
 			newCountry[medal.name] = { page_value: count, saved_value: count }
 		})
 		setCountries(countriesList.concat(newCountry))
+		handleToastShow('Country Added Successfully')
 	}
 	const deleteCountry = async (countryId) => {
 		const originalCountries = countriesList
 		setCountries(countriesList.filter((c) => c.id !== countryId))
 		try {
 			await axios.delete(`${apiEndpoint}/${countryId}`)
+			handleToastShow('Country Deleted!!! Successfully')
 		} catch (ex) {
 			if (ex.response && ex.response.status === 404) {
-				// country already deleted
 				console.log('The record does not exist - it may have already been deleted')
 			} else {
 				alert('An error occurred while deleting')
@@ -190,12 +192,7 @@ const App = () => {
 
 		const mutableCountries = [...countriesList]
 		mutableCountries[idx][medalName].page_value += 1 * factor
-		// console.log(`index: ${idx}`)
-		// console.log(`medalName: ${medalName}`)
-		// console.log(`index: ${mutableCountries[idx][medalName]}`)
 		setCountries(mutableCountries)
-		// const newMedalCount = mutableCountries[idx][medalName]
-		// console.log(newMedalCount)
 		const jsonPatch = [{ op: 'replace', path: medalName, value: mutableCountries[idx][medalName].page_value }]
 		console.log(`json patch for id: ${countryId}: ${JSON.stringify(jsonPatch)}`)
 
@@ -255,7 +252,7 @@ const App = () => {
 				}}
 				delay={3000}
 				autohide>
-				<Toast.Header className='me-auto text-warning'>No Country Name Given:</Toast.Header>
+				<Toast.Header className='me-auto text-warning'>MESSAGE:</Toast.Header>
 				<Toast.Body>{toastMessage}</Toast.Body>
 			</Toast>
 			<NewCountry addCountry={addCountry} onShowToast={handleToastShow} />
