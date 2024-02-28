@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/react-medals/static/css/main.8831bc45.css",
+    "main.js": "/react-medals/static/js/main.c7f7b7f9.js",
+    "static/media/coin.png": "/react-medals/static/media/coin.4071ad64906964f50a58.png",
+    "index.html": "/react-medals/index.html",
+    "main.8831bc45.css.map": "/react-medals/static/css/main.8831bc45.css.map",
+    "main.c7f7b7f9.js.map": "/react-medals/static/js/main.c7f7b7f9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8831bc45.css",
+    "static/js/main.c7f7b7f9.js"
+  ]
+}
