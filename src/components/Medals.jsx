@@ -47,19 +47,19 @@ const useMedalStyles = makeStyles((theme) => ({
 
     goldMedalIcon: {
         verticalAlign: "middle",
-        color: "#FFD700", // Gold color using a hex code
+        color: "#FFD700",
         padding: theme.spacing(0.5),
         alignItems: "center",
   },
     
     silverMedalIcon: {
         verticalAlign: "middle",
-        color: "#C0C0C0", // Silver color using a hex code
+        color: "#C0C0C0", 
         padding: theme.spacing(0.5),
     },
     bronzeMedalIcon: {
         verticalAlign: "middle",
-        color: "#CD7F32", // Bronze color using a hex code
+        color: "#CD7F32", 
         padding: theme.spacing(0.5),
     },
 
