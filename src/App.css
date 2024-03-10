@@ -38,11 +38,11 @@
 
 @keyframes coin-animation {
 	0% {
-		transform: translateY(0) scale(1);
+		transform: translateY(0) rotateY(0);
 		opacity: 1;
 	}
 	100% {
-		transform: translateY(-100px) scale(0);
+		transform: translateY(-200px) rotateY(360deg); /* Adjust translateY value as needed */
 		opacity: 0;
 	}
 }
@@ -50,10 +50,15 @@
 .coin {
 	position: fixed;
 	pointer-events: none;
-	animation: coin-animation 0.5s forwards;
+	animation: coin-animation 1s forwards ease-out; /* Adjust timing as needed */
+	transform: translate3d(-50%);
 
 	background-image: url('./coin.png');
-	background-size: cover;
-	width: 30px;
-	height: 30px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 35px;
+	height: 35px;
+	z-index: 2;
+	/* Center the transform origin */
+	transform-origin: bottom center;
 }

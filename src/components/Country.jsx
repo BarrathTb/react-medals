@@ -51,8 +51,9 @@ const useCountryStyles = makeStyles((theme) => {
 });
 
 
-function Country({ country, medals = [], decrementMedals, incrementMedals, deleteCountry, onSave, onReset }) {
+function Country({ country, medals = [], decrementMedals, incrementMedals, deleteCountry, onSave, onReset, canDelete, canPatch }) {
     const classes = useCountryStyles();
+    
 
     return (
         <div className={classes.cardContainer}>
@@ -63,9 +64,9 @@ function Country({ country, medals = [], decrementMedals, incrementMedals, delet
                     title={`Country Name: ${country.name}`}
                     action={
                         <>
-                            <IconButton onClick={() => deleteCountry(country.id)}>
+                            {canDelete && (<IconButton onClick={() => deleteCountry(country.id)}>
                                 <DeleteIcon />
-                            </IconButton>
+                            </IconButton>)}
                             <IconButton onClick={() => onSave(country.id)}> {/* Pass only the country ID */}
                                 <Save />
                             </IconButton>
@@ -85,6 +86,7 @@ function Country({ country, medals = [], decrementMedals, incrementMedals, delet
                             }))
                         } 
                         country={country}
+                        canPatch={ canPatch }
                         incrementMedals={incrementMedals}
                         decrementMedals={decrementMedals}
                     />                       

@@ -82,7 +82,7 @@ const useMedalStyles = makeStyles((theme) => ({
 }));
 
 
-function Medals({ medals = [], country, incrementMedals, decrementMedals }) {
+function Medals({ medals = [], country, incrementMedals, decrementMedals, canPatch }) {
   const { coins, createCoin } = useMarioCoinAnimation();
   const classes = useMedalStyles();
 
@@ -109,16 +109,16 @@ function Medals({ medals = [], country, incrementMedals, decrementMedals }) {
             <EmojiEventsIcon className={classes[`${medal.name}MedalIcon`]} />
           </Typography>
           
-          {/* Button to add a new medal */}
-          <Button
+          
+          {canPatch && (<Button
             className={classes.addCardBtn}
             onClick={() => handleAddMedal(medal.name)}
           >
             {`Add ${medal.name.charAt(0).toUpperCase() + medal.name.slice(1)} Medal`}
-          </Button>
+          </Button>)}
 
           {/* Only show the remove button if there is at least one medal of the current type */}
-          {country[medal.name]?.page_value > 0 && (
+          {country[medal.name]?.page_value > 0 && canPatch && (
             <Button
               className={classes.delCardBtn}
               onClick={() => decrementMedals(country.id, medal.name)}
@@ -129,10 +129,13 @@ function Medals({ medals = [], country, incrementMedals, decrementMedals }) {
         </div>
       ))}
       
-      {/* Render coins dynamically based on the coins array */}
-      {coins.map((coin) => (
-        <div key={coin.key} className="coin" style={{...coin.style, backgroundImage: `url(${coinImage})`}}></div>
-      ))}
+      {/* Coin Container */}
+      <div className={classes.coinContainer}>
+        {/* Render coins dynamically based on the coins array */}
+        {coins.map((coin) => (
+          <div key={coin.key} className="coin" style={{...coin.style, backgroundImage: `url(${coinImage})`}}></div>
+        ))}
+      </div>
     </div>
   );
 }
