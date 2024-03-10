@@ -67,15 +67,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 const App = () => {
 	const classes = useStyles()
-	// const apiEndpoint = "https://localhost:7266/api/country";
+	// const apiEndpoint = 'https://localhost:7266/jwt/api/country'
+	// const hubEndpoint = 'https://localhost:7266/medalsHub'
+	// const usersEndpoint = 'https://localhost:7266/api/users/login'
+	const apiEndpoint = 'https://react-medals-barrathtb.azurewebsites.net/jwt/api/country'
+	const hubEndpoint = 'https://react-medals-barrathtb.azurewebsites.net/medalsHub'
+	const usersEndpoint = 'https://react-medals-barrathtb.azurewebsites.net/api/users/login'
 
-	// const apiEndpoint = 'https://react-medals-barrathtb.azurewebsites.net/jwt/api/country'
-	// const hubEndpoint = 'https://react-medals-barrathtb.azurewebsites.net/medalsHub'
-	// const usersEndpoint = 'https://react-medals-barrathtb.azurewebsites.net/api/users/login'
-
-	const apiEndpoint = 'https://medals-api-6.azurewebsites.net/jwt/api/country'
-	const hubEndpoint = 'https://medals-api-6.azurewebsites.net/medalsHub'
-	const usersEndpoint = 'https://medals-api-6.azurewebsites.net/api/users/login'
+	// const apiEndpoint = 'https://medals-api-6.azurewebsites.net/jwt/api/country'
+	// const hubEndpoint = 'https://medals-api-6.azurewebsites.net/medalsHub'
+	// const usersEndpoint = 'https://medals-api-6.azurewebsites.net/api/users/login'
 
 	const [showToast, setShowToast] = useState(false)
 	const [toastMessage, setToastMessage] = useState('')
